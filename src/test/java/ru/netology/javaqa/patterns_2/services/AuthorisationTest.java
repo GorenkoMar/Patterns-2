@@ -1,14 +1,15 @@
-package ru.netology.javaqa;
-
+package ru.netology.javaqa.patterns_2.services;
+import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import static ru.netology.javaqa.DataGenerator.*;
-import static ru.netology.javaqa.DataGenerator.Registration.getRegisteredUser;
-import static ru.netology.javaqa.DataGenerator.Registration.getUser;
+import static ru.netology.javaqa.patterns_2.services.DataGenerator.Registration.getRegisteredUser;
+import static ru.netology.javaqa.patterns_2.services.DataGenerator.Registration.getUser;
+import static  ru.netology.javaqa.patterns_2.services.DataGenerator.getRandomLogin;
+import static ru.netology.javaqa.patterns_2.services.DataGenerator.getRandomPassword;
 
 class AuthorisationTest {
 
@@ -18,16 +19,16 @@ class AuthorisationTest {
     }
 
     @Test
-        void SuccessfulLoginAndRegisteredUser() {
+        void successfulLoginAndRegisteredUser() {
         var registeredUser = getRegisteredUser("active");
         $("[data-test-id='login'] input").setValue(registeredUser.getLogin());
         $("[data-test-id='password'] input").setValue(registeredUser.getPassword());
         $("[data-test-id='action-login']").click();
-        $("[id=root] .heading").shouldHave(exactText("  Личный кабинет"));
+        $("h2").shouldHave(Condition.exactText("Личный кабинет")).shouldBe(Condition.visible);
     }
 
     @Test
-        void NotRegisteredUser() {
+        void notRegisteredUser() {
         var notRegisteredUser = getUser("active");
         $("[data-test-id='login'] input").setValue(notRegisteredUser.getLogin());
         $("[data-test-id='password'] input").setValue(notRegisteredUser.getPassword());
@@ -36,7 +37,7 @@ class AuthorisationTest {
     }
 
     @Test
-        void BlockedUser() {
+        void blockedUser() {
         var blockedUser = getRegisteredUser("blocked");
         $("[data-test-id='login'] input").setValue(blockedUser.getLogin());
         $("[data-test-id='password'] input").setValue(blockedUser.getPassword());
@@ -45,7 +46,7 @@ class AuthorisationTest {
     }
 
     @Test
-        void WrongLogin() {
+        void wrongLogin() {
         var registeredUser = getRegisteredUser("active");
         var wrongLogin = getRandomLogin();
         $("[data-test-id='login'] input").setValue(wrongLogin);
@@ -55,7 +56,7 @@ class AuthorisationTest {
     }
 
     @Test
-        void WrongPassword() {
+        void wrongPassword() {
         var registeredUser = getRegisteredUser("active");
         var wrongPassword = getRandomPassword();
         $("[data-test-id='login'] input").setValue(registeredUser.getLogin());

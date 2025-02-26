@@ -1,5 +1,4 @@
-package ru.netology.javaqa;
-
+package ru.netology.javaqa.patterns_2.services;
 import com.github.javafaker.Faker;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
